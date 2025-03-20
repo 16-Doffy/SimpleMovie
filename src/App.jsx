@@ -4,6 +4,8 @@ import MovieCard from "./Components/Movie/MovieCard";
 import { Swiper,SwiperSlide } from "swiper/react";
 import "swiper/css"
 import MovieList from "./Components/MovieList";
+import MovieRated from "./Components/MovieRated";
+import MovieTrend from "./Components/MovieTrend";
 //https://api.themoviedb.org/3/movie/now_playing
 function App() {
   return (
@@ -47,18 +49,18 @@ function App() {
         <h2 className="capitalize text-white mb-10 text-4xl font-bold ">
           Top Rated
         </h2>
-        <div className="movie-list grid grid-cols-4 gap-10">
-          <MovieCard />
-        </div>
+       
+        <MovieRated/>
+       
       </section>
 
       <section className="movie-layout p-10 ">
         <h2 className="capitalize text-white mb-10 text-4xl font-bold ">
           Treding
         </h2>
-        <div className="movie-list grid grid-cols-4 gap-10">
-          <MovieCard />
-        </div>
+      
+          <MovieTrend />
+      
       </section>
     </>
   );

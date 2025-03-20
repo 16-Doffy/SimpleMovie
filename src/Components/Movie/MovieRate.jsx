@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const MovieCard = ({ item }) => {
+const MovieRate = ({ item }) => {
   console.log("MovieCard props:", item);
 
   if (!item) return null; // Tránh lỗi nếu item không tồn tại
@@ -33,7 +33,7 @@ const MovieCard = ({ item }) => {
   );
 };
 
-MovieCard.propTypes = {
+MovieRate.propTypes = {
   item: PropTypes.shape({
     title: PropTypes.string.isRequired,
     vote_average: PropTypes.number.isRequired,
@@ -42,4 +42,4 @@ MovieCard.propTypes = {
   }).isRequired,
 };
 
-export default MovieCard;
+export default MovieRate;
