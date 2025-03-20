@@ -4,4 +4,8 @@
         @apply bg-slate-900 
         
     }
+    
 }
+.movie-list .swiper-slide{
+    width: 450px;
+        }
