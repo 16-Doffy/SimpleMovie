@@ -1,12 +1,8 @@
 import { NavLink } from "react-router-dom";
-import kata from "./assets/img/kata.jpg";
-import MovieCard from "./Components/Movie/MovieCard";
-import { Swiper,SwiperSlide } from "swiper/react";
-import "swiper/css"
 import MovieList from "./Components/MovieList";
-import MovieRated from "./Components/MovieRated";
-import MovieTrend from "./Components/MovieTrend";
-//https://api.themoviedb.org/3/movie/now_playing
+import Banner from "./Components/Banner/Banner";
+import "swiper/css";
+
 function App() {
   return (
     <>
@@ -14,53 +10,28 @@ function App() {
         <span className="text-pink-400">Home</span>
         <span>Movies</span>
       </header>
-      <section className="banner w-[50%] h-[50%] m-auto ">
-        <div className="w-full h-full rounded-lg relative ">
-          <div className="overlay absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(0,0,0,0.5)] rounded-lg"></div>
-          <img src={kata} className="w-full h-full object-fill  rounded-lg" />
-          <div className="absolute left-5 bottom-0 w-full">
-            <h2 className="font-bold text-white text-6xl mb-5">Kata My Life</h2>
-            <div className="flex items-center gap-x-3 mb-8 text-white">
-              <span className="p-4 py-2 border border-white rounded-md">
-                Action
-              </span>
-              <span className="p-4 py-2 border border-white rounded-md">
-                Action
-              </span>
-              <span className="p-4 py-2 border border-white rounded-md">
-                Action
-              </span>
-            </div>
-            <button className="py-3 px-6 rounded-lg bg-pink-500 text-white font-medium">
-              Watch Now
-            </button>
-          </div>
-        </div>
-      </section>
+<div >      <Banner /> </div>
 
-      <section className="movie-layout p-10 ">
-        <h2 className="capitalize text-white mb-10 text-4xl font-bold ">
+
+      <section className="movie-layout p-10">
+        <h2 className="capitalize text-white mb-10 text-4xl font-bold">
           Now Playing
         </h2>
-     <MovieList/>
+        <MovieList />
       </section>
 
-      <section className="movie-layout p-10 ">
-        <h2 className="capitalize text-white mb-10 text-4xl font-bold ">
+      <section className="movie-layout p-10">
+        <h2 className="capitalize text-white mb-10 text-4xl font-bold">
           Top Rated
         </h2>
-       
-        <MovieRated/>
-       
+        <MovieList type="top_rated" />
       </section>
 
-      <section className="movie-layout p-10 ">
-        <h2 className="capitalize text-white mb-10 text-4xl font-bold ">
-          Treding
+      <section className="movie-layout p-10">
+        <h2 className="capitalize text-white mb-10 text-4xl font-bold">
+          Trending
         </h2>
-      
-          <MovieTrend />
-      
+        <MovieList type="popular" />
       </section>
     </>
   );

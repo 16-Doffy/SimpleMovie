@@ -8,4 +8,8 @@
 }
 .movie-list .swiper-slide{
     width: 450px;
+    height:auto;
         }
+        /* .banner .swiper {
+            height :100%;
+        } */

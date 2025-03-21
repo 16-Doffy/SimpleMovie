@@ -5,10 +5,10 @@ import MovieCard from "./Movie/MovieCard";
 import useSWR from "swr";
 import { fetcher } from "../config/config";
 //api_key=733d08f3b55d5c3b516692a4f30a1ff7
-const MovieList = () => {
+const MovieList = ({ type = "now_playing"}) => {
   const [movie, setMovie] = useState([]);
   const { data} = useSWR(
-    "https://api.themoviedb.org/3/movie/now_playing?api_key=733d08f3b55d5c3b516692a4f30a1ff7",
+    `https://api.themoviedb.org/3/movie/${type}?api_key=733d08f3b55d5c3b516692a4f30a1ff7`,
     fetcher
   );
   console.log("data", data);
