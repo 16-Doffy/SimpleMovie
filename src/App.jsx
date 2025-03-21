@@ -1,38 +1,30 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Route, Routes } from "react-router-dom";
 import MovieList from "./Components/MovieList";
 import Banner from "./Components/Banner/Banner";
 import "swiper/css";
+import Header from "./Components/Layput/Header";
+import HomePage from "./pages/HomePage";
+import Main from "./Components/Layput/Main";
+import MoviesPage from "./pages/MoviesPage";
 
 function App() {
   return (
     <>
-      <header className="header flex items-center justify-center gap-x-5 text-white py-10 mb-10">
-        <span className="text-pink-400">Home</span>
-        <span>Movies</span>
-      </header>
-<div >      <Banner /> </div>
-
-
-      <section className="movie-layout p-10">
-        <h2 className="capitalize text-white mb-10 text-4xl font-bold">
-          Now Playing
-        </h2>
-        <MovieList />
-      </section>
-
-      <section className="movie-layout p-10">
-        <h2 className="capitalize text-white mb-10 text-4xl font-bold">
-          Top Rated
-        </h2>
-        <MovieList type="top_rated" />
-      </section>
-
-      <section className="movie-layout p-10">
-        <h2 className="capitalize text-white mb-10 text-4xl font-bold">
-          Trending
-        </h2>
-        <MovieList type="popular" />
-      </section>
+      <Routes>
+        <Route element={<Main></Main>}>
+          <Route
+            path="/"
+            element={
+              <>
+                <Banner></Banner>
+                <HomePage></HomePage>
+              </>
+            }
+          ></Route>
+          
+          <Route path="/movies" element={<MoviesPage></MoviesPage>}></Route>
+        </Route>
+      </Routes>
     </>
   );
 }
