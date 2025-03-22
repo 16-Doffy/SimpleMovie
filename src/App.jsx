@@ -1,31 +1,29 @@
-import { NavLink, Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import MovieList from "./Components/MovieList";
 import Banner from "./Components/Banner/Banner";
 import "swiper/css";
-import Header from "./Components/Layput/Header";
 import HomePage from "./pages/HomePage";
-import Main from "./Components/Layput/Main";
 import MoviesPage from "./pages/MoviesPage";
+import DetailMovie from "./pages/DetailMovie";
+import Main from "./Components/Layput/Main";
 
 function App() {
   return (
-    <>
-      <Routes>
-        <Route element={<Main></Main>}>
-          <Route
-            path="/"
-            element={
-              <>
-                <Banner></Banner>
-                <HomePage></HomePage>
-              </>
-            }
-          ></Route>
-          
-          <Route path="/movies" element={<MoviesPage></MoviesPage>}></Route>
-        </Route>
-      </Routes>
-    </>
+    <Routes>
+      <Route element={<Main />}>
+        <Route
+          path="/"
+          element={
+            <>
+              <Banner />
+              <HomePage />
+            </>
+          }
+        />
+        <Route path="/movies" element={<MoviesPage />} />
+        <Route path="/movies/:moviesId" element={<DetailMovie />} />
+      </Route>
+    </Routes>
   );
 }
 
