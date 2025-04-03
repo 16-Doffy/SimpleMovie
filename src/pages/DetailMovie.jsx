@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useSWR from "swr";
 import { fetcher } from "../config/config";
 import { SwiperSlide } from "swiper/react";
@@ -156,12 +156,14 @@ function MovieSilimar () {
           movies.slice(0,4).map((item) => (
             <MovieCard key={item.id} item={item}></MovieCard>
           ))}
+          <Link to="/movies"> 
           <h1><img src="https://cdn-icons-png.flaticon.com/256/10310/10310074.png" alt=""
             className="py-50 px-24"
-          /> <p className="text-6xl border-2 w-full h-35 text-center p-1 bg-blue-700 rounded-2xl">
+          /> 
+          <p className="text-6xl border-2 w-full h-35 text-center p-1 bg-blue-700 rounded-2xl">
           Back To HomePage
           </p></h1>
-          
+          </Link>
       </div>
     </div>
   );
