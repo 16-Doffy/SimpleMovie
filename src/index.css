@@ -20,3 +20,18 @@
     gap: 20px;
     cursor: pointer;
 }
+.bg-primary {
+    background-color: #F52582;
+    color: white;
+  }
+  
+  .bg-secondary {
+    background-color: #6F5CF1;
+    color: white;
+  }
+ .primary {
+    color:  #1d05b8
+ } 
+ .secondary{
+    color:  #084ba3
+ }

@@ -2,6 +2,8 @@ import useSWR from "swr";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { fetcher } from "../../config/config";
 import "swiper/css";
+import Button from "../Button/Button";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Banner = () => {
   const { data } = useSWR(
@@ -25,7 +27,8 @@ console.log("movies",movies)
 };
 
 const BannerItem = ({ item }) => {
-  const { title, backdrop_path } = item;
+  const navigate = useNavigate();
+  const { title, backdrop_path,id } = item;
   return (
     <div className="w-[50%] h-[10%] m-auto rounded-lg relative object-cover   inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(0,0,0,0.5)] ">
       <div className="overlay absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(0,0,0,0.5)] rounded-lg"></div>
@@ -34,11 +37,9 @@ const BannerItem = ({ item }) => {
         className="w-full h-full object-cover rounded-lg"
         alt={title}
       />
-      <div className="absolute left-5 bottom-5 w-full">
+      <div className="absolute left-5 bottom-5 " >
         <h2 className="font-bold text-white text-4xl mb-3">{title}</h2>
-        <button className="py-3 px-6 rounded-lg bg-pink-500 text-white font-medium">
-          Watch Now
-        </button>
+        <Button  onClick={() => navigate(`/movies/${id}`)}  ></Button>
       </div>
     </div>
   );

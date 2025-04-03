@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import Button from "../Button/Button";
 
 
 const MovieCard = ({ item }) => {
@@ -29,12 +30,12 @@ const MovieCard = ({ item }) => {
         </div>
       </div>
 
-      <button
+      <Button
         onClick={() => navigate(`/movies/${id}`)}
-        className="cursor-pointer py-3 px-6 rounded-lg capitalize bg-pink-500 text-2xl w-full text-center mt-auto"
+      bgColor="background-color"
       >
         Watch Now
-      </button>
+      </Button>
     </div>
   );
 };
