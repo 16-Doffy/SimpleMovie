@@ -1,41 +1,38 @@
+"use client";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import Button from "../Button/Button";
-
 
 const MovieCard = ({ item }) => {
   if (!item) return null; // Tránh lỗi nếu item không tồn tại
 
-  const { title, vote_average, release_date, poster_path, id } = item;
+  const { title, vote_average, poster_path, id } = item;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const navigate = useNavigate();
-  
   const imageUrl = `https://image.tmdb.org/t/p/w500${poster_path}`;
   console.log("itedsadsam", item);
   return (
-    <div className="movie-card flex flex-col rounded-lg p-3 bg-slate-800 text-white h-full select-none">
+    <div className="movie-card   flex flex-col rounded-lg   text-white w-full h-full select-none hover:scale-95 transition-transform duration-300 hover:text-blue-500">
       <img
         src={imageUrl}
         alt={title}
-        className="w-full h-[650px] object-cover rounded-lg mb-5"
+        className="h-[320px] w-[320px] object-cover p-1 rounded-full border hover:scale-95 transition-transform duration-300"
       />
 
-      <div className="flex flex-col flex-1">
-        <h3 className="text-3xl text-white font-bold mb-2 mt-1">{title}</h3>
-        <div className="flex items-center justify-between text-md mb-10 text-2xl">
-          <span>{release_date ? new Date(release_date).getFullYear() : "N/A"}</span>
+      <div className="flex flex-col text-center mt-2 relative">
+        <p className="flex flex-col-2 justify-center gap-2 text-xl  ">
           <span>
-            {vote_average.toFixed(1)}{" "}
-            <span className="text-yellow-400 text-2xl">&#9733;</span>
+            {vote_average.toFixed(1)}
+            <span className="text-yellow-400 boder border-amber-300 absolute">&#9733;</span>
           </span>
+        </p>
+        <div className="  text-center text-white ">
+          <button onClick={() => navigate(`/movies/${id}`)}>
+            <p className="text-center bg-gradient-to-l from-red-500 to-white bg-clip-text text-transparent text-xl mt-2 cursor-pointer">
+              {title}
+            </p>
+          </button>
         </div>
       </div>
-
-      <Button
-        onClick={() => navigate(`/movies/${id}`)}
-      bgColor="background-color"
-      >
-        Watch Now
-      </Button>
     </div>
   );
 };

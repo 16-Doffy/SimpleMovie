@@ -1,32 +1,31 @@
 import React from "react";
-import MovieList from "../Components/MovieList";
 import Banner from "../Components/Banner/Banner";
+import MovieList from "../Components/MovieList";
 
-const HomePage = () => {
+export default function HomePage() {
   return (
     <>
-      <section className="movie-layout p-10">
-        <h2 className="capitalize text-white mb-10 text-4xl font-bold">
-          Now Playing
+      <Banner></Banner>
+      <section className="movies-layout page-container pb-10 ">
+        <h2 className="capitalize text-white mb-10 text-3xl font-bold">
+          Now playing
         </h2>
-        <MovieList />
+        <MovieList></MovieList>
       </section>
 
-      <section className="movie-layout p-10">
-        <h2 className="capitalize text-white mb-10 text-4xl font-bold">
-          Top Rated
+      <section className="movies-layout page-container pb-20 ">
+        <h2 className="capitalize text-white mb-10 text-3xl font-bold">
+          Top rate
         </h2>
-        <MovieList type="top_rated" />
+        <MovieList type="top_rated"></MovieList>
       </section>
 
-      <section className="movie-layout p-10">
-        <h2 className="capitalize text-white mb-10 text-4xl font-bold">
+      <section className="movies-layout page-container pb-10 ">
+        <h2 className="capitalize text-white mb-10 text-3xl font-bold">
           Trending
         </h2>
-        <MovieList type="popular" />
+        <MovieList type="popular"></MovieList>
       </section>
     </>
   );
-};
-
-export default HomePage;
+}

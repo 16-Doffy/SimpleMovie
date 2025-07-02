@@ -1,171 +1,121 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import { fetcher } from "../config/config";
-import { SwiperSlide } from "swiper/react";
-import Swiper from "swiper";
-import MovieCard from "../Components/Movie/MovieCard";
+export default function DetailMovie() {
+  const { movieId } = useParams();
 
-const DetailMovie = () => {
-  const { moviesId } = useParams(); // Lấy moviesId từ useParams()
   const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${moviesId}?api_key=733d08f3b55d5c3b516692a4f30a1ff7`,
+    `https://api.themoviedb.org/3/movie/${movieId}?api_key=733d08f3b55d5c3b516692a4f30a1ff7`,
     fetcher
   );
 
-  console.log("data", data);
   if (!data) return null;
-  const { title, backdrop_path, genres, overview } = data;
+
+  const { title, genres, overview,  poster_path } = data;
 
   return (
-    <div className="py-10">
-      <div className="w-full h-[800px] relative mb-10">
-        <div className="relative inset-0 bg-black bg-opacity-100"></div>
-        <div
-          className="w-full h-full bg-cover bg-no-repeat border-4 border-black  "
-          style={{
-            backgroundImage: `url(https://image.tmdb.org/t/p/original${backdrop_path})`,
-          }}
-        ></div>
-      </div>
-      <div className="w-full h-[400px] max-w-[800px] mx-auto -mt-[200px] relative z-10 pb-10">
-        <img
-          src={`https://image.tmdb.org/t/p/original${backdrop_path}`}
-          alt=""
-          className="w-full h-full object-cover rounded-lg
-           border-2 bg-indigo-300  bg-clip-padding p-1
-          "
-        />
-      </div>
-      <h1 className="text-center text-3xl font-bold  text-white mb-10">
-        {title}
-      </h1>
-      {genres &&
-        genres.length > 0 && ( // thêm điều kiện để kiểm tra genres
-          <div className="flex items-center gap-x-5 mb-10 justify-center">
-            {genres.map((item) => (
-              <span
-                key={item.id}
-                className="py-2 px-5 border border-pink-500 rounded-lg "
-              >
-                {item.name}{" "}
-              </span>
-            ))}
+    <div className="text-white ">
+      <div className="w-auto relative flex flex-col items-center">
+        <div className="grid grid-cols-3 ">
+          <div className="w-[450px] shadow-lg rounded overflow-hidden h-auto">
+            <img
+              src={`https://image.tmdb.org/t/p/original${poster_path}`}
+              alt={title}
+              className="w-full h-auto object-cover rounded p-1 bg-blue-600"
+            />
           </div>
-        )}
-      <p
-        className="text-center 
-      text-3xl  leading-relaxed max-w-[600px] 
-      max-auto m-auto
-      bg-gradient-to-r from-pink-400 to-violet-300 bg-clip-text   text-transparent  
-      mx-auto mb-10
-      "
-      >
-        {overview}
-      </p>
-      <div className="w-20 flex m-auto text-center border text-white"></div>
-      <MovieCredit></MovieCredit>
-      <div className="w-20 flex m-auto text-center border text-white mt-10"></div>
-      <MovieVideos></MovieVideos>
-      <div className="w-20 flex m-auto text-center border text-white mt-10"></div>
-      <MovieSilimar></MovieSilimar>
+
+          <div className="flex flex-col-3">
+            <div className="text-2xl flex flex-col mt-2 mr-30">
+              {title}
+              <p className="grid grid-rows-2 ">
+                {genres.length > 0 && (
+                  <div className="">
+                    {genres.map((item) => (
+                      <span
+                        key={item.id}
+                        className="rounded-full w-15 text-center gap-2 text-xl  font-medium  border-r-2 border-pink-500"
+                      >
+                        {item.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </p>
+              <p className="text-transparent bg-gradient-to-t from-pink-400 to-white bg-clip-text">
+                {overview}
+              </p>
+            <MovieCredit></MovieCredit>
+            </div>
+          </div>
+        </div>
+
+        <MovieView></MovieView>
+      </div>
     </div>
   );
-};
+}
+//https://api.themoviedb.org/3/credit/{credit_id}
 function MovieCredit() {
-  //https://api.themoviedb.org/3/movie/{movie_id}/credits
-  const { moviesId } = useParams(); // Lấy moviesId từ useParams()
+  const { movieId } = useParams();
   const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${moviesId}/credits?api_key=733d08f3b55d5c3b516692a4f30a1ff7`,
+    `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=733d08f3b55d5c3b516692a4f30a1ff7`,
     fetcher
   );
-
-  console.log("data credit", data);
   if (!data) return null;
+  console.log(data);
   const { cast } = data;
   if (!cast || cast.length <= 0) return null;
   return (
-    <div className="py-10 ">
-      <h2 className="text-center text-3xl mb-10 font-bold">Casts Main:</h2>
-      <div className="grid grid-cols-4 gap-5">
+    <div>
+      <h2 className="text-center text-2xl pt-12"> Casts </h2>
+      <div className="grid grid-cols-4 gap-5 m-2 w-[768px] h-[400px]  ">
         {cast.slice(0, 4).map((item) => (
-          <div className="cast-Item" key={item.id}>
+          <div className="cast-item mt-5 " key={item.id}>
             <img
               src={`https://image.tmdb.org/t/p/original${item.profile_path}`}
               alt=""
-              className="w-full h-full object-cover rounded-lg mb-3"
+              className="w-40 h-40 rounded-full p-2"
             />
-            <h3 className="text-center text-4xl">{item.name}</h3>
+            <h3 className="text-xl text-center">{item.name}</h3>
           </div>
         ))}
+        
       </div>
     </div>
   );
 }
-function MovieVideos() {
-  // https://api.themoviedb.org/3/movie/{movie_id}/videos
-
-  const { moviesId } = useParams();
+function MovieView() {
+  const { movieId } = useParams();
   const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${moviesId}/videos?api_key=733d08f3b55d5c3b516692a4f30a1ff7`,
+    `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=733d08f3b55d5c3b516692a4f30a1ff7`,
     fetcher
+    // `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=733d08f3b55d5c3b516692a4f30a1ff7`,
   );
-
-  console.log("video", data);
-
-  if (!data || !data.results || data.results.length === 0)
-    return <p>Không có video nào</p>;
-
+  if (!data) return null;
+  const { results } = data;
+  if (!results || results.length <= 0) return null;
   return (
     <div className="py-10">
-      <div className="flex flex-col gap-10">
-        {data.results.slice(0,1).map((item) => (
-          <div key={item.id}>
-            <h3 className="text-3xl text-white mb-2  bg-blue-800 font-bold w-100 h-15 p-3 text-center">
+      <div className="flex flex-col">
+        {results.slice(0, 1).map((item) => (
+          <div key={item.id} className="w-full aspect-video">
+            <h3 className="mb-5 text-xl font-medium text-pink-400 text-center">
               {item.name}
             </h3>
-            <div className="w-full aspect-video">
-              <iframe
-                width="560"
-                height="315"
-                src={`https://www.youtube.com/embed/${item.key}`}
-                frameBorder="0"
-                allowFullScreen
-                className="w-full h-full object-fill"
-              ></iframe>
-            </div>
+            <iframe
+              width="1600"
+              height="721"
+              src={`https://www.youtube.com/embed/${item.key}`}
+              title="Tùng Lâm bình luận Play-off LPL| FPX vs IG (Bo5) | Round 1 nhánh thua #lpltiengviet #lpl"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+            ></iframe>{" "}
           </div>
         ))}
       </div>
     </div>
   );
 }
-// https://api.themoviedb.org/3/movie/{movie_id}/similar
-
-function MovieSilimar () {
-  const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/popular?api_key=733d08f3b55d5c3b516692a4f30a1ff7`,
-    fetcher
-  );
-  const movies = data?.results || [];
-  console.log("moviespage", movies);
-  return (
-    <div className="py-10">
-   <h3 className="text-3xl text-white mb-2  bg-blue-800 font-bold w-100 h-15 p-3 text-center ">Similar Movie</h3>
-      <div className="flex  flex-row gap-10 m-auto">
-        {movies.length > 10 &&
-          movies.slice(0,4).map((item) => (
-            <MovieCard key={item.id} item={item}></MovieCard>
-          ))}
-          <Link to="/movies"> 
-          <h1><img src="https://cdn-icons-png.flaticon.com/256/10310/10310074.png" alt=""
-            className="py-50 px-24"
-          /> 
-          <p className="text-6xl border-2 w-full h-35 text-center p-1 bg-blue-700 rounded-2xl">
-          Back To HomePage
-          </p></h1>
-          </Link>
-      </div>
-    </div>
-  );
-};
-export default DetailMovie;

@@ -1,61 +1,59 @@
 import React, { useEffect, useState } from "react";
-import MovieCard from "../Components/Movie/MovieCard";
+import MovieList from "../Components/MovieList";
 import useSWR from "swr";
 import { fetcher } from "../config/config";
+import MovieCard from "../Components/Movie/MovieCard";
 import useDebounce from "../Hooks/useDebounce";
-import ReactPaginate from "react-paginate";
-
-const itemsPerPage = 20;
-
-const MoviesPage = () => {
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState("");
-  const filterDebounce = useDebounce(filter, 3000);
-
-  const apiKey = "733d08f3b55d5c3b516692a4f30a1ff7";
-  const baseUrl = "https://api.themoviedb.org/3";
-
-  const url = filterDebounce
-    ? `${baseUrl}/search/movie?api_key=${apiKey}&query=${filterDebounce}&page=${currentPage}`
-    : `${baseUrl}/movie/popular?api_key=${apiKey}&page=${currentPage}`;
-
-  const { data } = useSWR(url, fetcher);
-  const loading = !data;
-  const movies = data?.results || [];
-
-  useEffect(() => {
-    if (!data || data?.total_results) {
-      setPageCount(Math.ceil(data.total_results));
-    }
-  }, [data]);
-
-  const handlePageClick = (event) => {
-    const selectedPage = event.selected + 1;
-    const newOffset = (event.selected * itemsPerPage) % (data?.total_results || 1);
-    setItemOffset(newOffset);
-    setCurrentPage(selectedPage);
+//https://api.themoviedb.org/3/search/movie
+export default function MoviesPage() {
+  const [url, setUrl] = useState(
+    "https://api.themoviedb.org/3/movie/popular?api_key=733d08f3b55d5c3b516692a4f30a1ff7&language=us"
+  );
+  const [fillter, setFillter] = useState("");
+  const SearchDeboundce = useDebounce(fillter, 500);
+  const handleSearch = (e) => {
+    setFillter(e.target.value);
   };
+  const { data } = useSWR(
+    // `https://api.themoviedb.org/3/movie/upcoming?api_key=733d08f3b55d5c3b516692a4f30a1ff7&language=us` ,
+    url,
+    fetcher
+  );
+  const movies = data?.results || [];
+    
+  useEffect(() => {
+    if (SearchDeboundce) {
+      setUrl(
+        `https://api.themoviedb.org/3/search/movie?api_key=733d08f3b55d5c3b516692a4f30a1ff7&query=${SearchDeboundce}`
+      );
+    } else {
+      setUrl(
+        "https://api.themoviedb.org/3/movie/popular?api_key=733d08f3b55d5c3b516692a4f30a1ff7"
+      );
+    }
+  }, [SearchDeboundce]);
+
 
   return (
-    <div className="py-10">
-      {/* Search Box */}
-      <div className="flex w-72 border rounded-full overflow-hidden text-2xl ml-5 p-3 bg-blue-900">
-        <input
-          type="text"
-          className="flex-1 w-full text-white bg-blue-900 outline-none"
-          placeholder="Type here to search..."
-          onChange={(e) => setFilter(e.target.value)}
-        />
-        <button>
+    <div className="py-10 text-white page-container">
+      <div className="flex mb-10">
+        <div className="flex-1 ">
+          <input
+            type="text"
+            className="w-full p-2  outline-none border text-white"
+            placeholder="Search Movies..."
+            onChange={handleSearch}
+          />
+        </div>
+        <button className="b-4 bg-slate-500 text-white " >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="size-9"
             fill="none"
             viewBox="0 0 24 24"
+            strokeWidth="1.5"
             stroke="currentColor"
-            strokeWidth="2"
+            className="w-10 h-10 "
+             
           >
             <path
               strokeLinecap="round"
@@ -65,39 +63,17 @@ const MoviesPage = () => {
           </svg>
         </button>
       </div>
-
-      {/* Loading Spinner */}
-      {loading && (
-        <div className="w-10 h-10 rounded-full border-4 border-pink-500 border-t-transparent mx-auto animate-spin mt-10"></div>
-      )}
-
-      {/* Movie List */}
-      <div className="grid grid-cols-4 m-4 gap-10">
-        {!loading && movies.length > 0
-          ? movies.map((item) => <MovieCard key={item.id} item={item} />)
-          : !loading && <p className="text-white text-center col-span-4">No movies found.</p>}
-      </div>
-
-      {/* Pagination */}
-      {pageCount > 1 && (
-        <div className="mt-10 flex justify-center">
-          <ReactPaginate
-            breakLabel="..."
-            nextLabel="Next >"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={5}
-            pageCount={pageCount}
-            previousLabel="< Prev"
-            renderOnZeroPageCount={null}
-            containerClassName="flex justify-center items-center gap-3 text-2xl"
-            activeClassName="text-white bg-blue-700 px-3 py-3 rounded-lg"
-            pageLinkClassName="px-3 py-1"
-            className="pagination"
-          />
-        </div>
-      )}
+      <div className="grid grid-cols-4 gap-10">
+  {movies.length > 0 ? (
+    movies.map((item) => (
+      <MovieCard key={item.id} item={item}></MovieCard>
+    ))
+  ) : (
+    <p className="col-span-4 text-center text-2xl text-white" >
+      KHÔNG TÌM THẤY PHIM !!!!!!
+    </p>
+  )}
+</div>
     </div>
   );
-};
-
-export default MoviesPage;
+}
